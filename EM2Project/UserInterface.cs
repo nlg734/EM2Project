@@ -11,12 +11,12 @@ namespace EM2Project
 {
     public partial class UserInterface : Form
     {
-        YValues ycurrent = new YValues(); //current values - initialized at t = 0
-        YValues ypast = new YValues(); //past values - initiaized at t = 0
-        YValues yfuture = new YValues(); // future values - initialized at t = 0
-        int n = 0; //number of steps - initialized at 0
-        const double dx = 0.01; //step size, in meters
-        const double dt = dx / _air; //time step, in seconds
+        YValues _ycurrent = new YValues(); //current values - initialized at t = 0
+        YValues _ypast = new YValues(); //past values - initiaized at t = 0
+        YValues _yfuture = new YValues(); // future values - initialized at t = 0
+        int _numOfSteps = 0; //number of steps - initialized at 0
+        const double _dx = 0.01; //step size, in meters
+        const double _dt = _dx / _air; //time step, in seconds
         double _timeElapsed = 0; //the amount of time passed, in seconds
 
         //speeds, in m/s
@@ -25,7 +25,7 @@ namespace EM2Project
         const int _glass = (int) (_air / 1.5); //speed of light in glass
         const int _brett = 0; //speed of light in brett
         const int _water = (int) (_air / 1.3); //speed of light in water
-        const int _jello = (int) (_air / 1.2); //speed of light in jello
+        const int _mystery = (int) (_air / 1.2); //speed of light in mystery item
 
         int _current = _air; //current speed on right side
 
@@ -52,16 +52,16 @@ namespace EM2Project
             double sizeMult = 250; // size multiplier
 
             double x1 = 0;
-            double y1 = ycurrent.Element(0);
+            double y1 = _ycurrent.Element(0);
 
             //Left Side
             for (int i = 0; i <= 254/2; i++)
             {
                 g.DrawLine(leftPen, (float)(x1 * sizeMult), (float)(y1 * sizeMult + heightDisplacement), 
-                    (float)((i*dx) * sizeMult), (float)(ycurrent[i] * sizeMult + heightDisplacement));
+                    (float)((i*_dx) * sizeMult), (float)(_ycurrent[i] * sizeMult + heightDisplacement));
 
-                x1 = (i * dx);
-                y1 = ycurrent[i];
+                x1 = (i * _dx);
+                y1 = _ycurrent[i];
             }
 
 
@@ -69,10 +69,10 @@ namespace EM2Project
             for (int i = 254/2; i < 255; i++)
             {
                 g.DrawLine(rightPen, (float)(x1 * sizeMult), (float)(y1 * sizeMult + heightDisplacement), 
-                    (float)((i * dx) * sizeMult), (float)(ycurrent[i] * sizeMult + heightDisplacement));
+                    (float)((i * _dx) * sizeMult), (float)(_ycurrent[i] * sizeMult + heightDisplacement));
 
-                x1 = (i * dx);
-                y1 = ycurrent[i];
+                x1 = (i * _dx);
+                y1 = _ycurrent[i];
             }
 
             leftPen.Dispose();
@@ -85,11 +85,11 @@ namespace EM2Project
         /// </summary>
         private void TimeStep()
         {
-            _timeElapsed += dt;
-            ypast = ycurrent;
-            ycurrent = yfuture;
-            yfuture = new YValues(n, ypast, ycurrent, _current);
-            n++;
+            _timeElapsed += _dt;
+            _ypast = _ycurrent;
+            _ycurrent = _yfuture;
+            _yfuture = new YValues(_numOfSteps, _ypast, _ycurrent, _current);
+            _numOfSteps++;
         }
 
         /// <summary>
@@ -164,9 +164,9 @@ namespace EM2Project
             _timeShown.Text = _timeElapsed.ToString("E03");
             _graphics.Dispose();
 
-            ycurrent = new YValues();
-            ypast = new YValues();
-            yfuture = new YValues();
+            _ycurrent = new YValues();
+            _ypast = new YValues();
+            _yfuture = new YValues();
         }
 
         /// <summary>
@@ -206,12 +206,12 @@ namespace EM2Project
             }
             else if(_materialsList.SelectedIndex == 5)
             {
-                _current = _jello;
+                _current = _mystery;
             }
 
-            ycurrent = new YValues();
-            ypast = new YValues();
-            yfuture = new YValues();
+            _ycurrent = new YValues();
+            _ypast = new YValues();
+            _yfuture = new YValues();
         }
     }
 }

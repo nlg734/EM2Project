@@ -9,13 +9,13 @@ namespace EM2Project
 {
     public class YValues
     {
-        private double[] values = new double[255]; //values of each point on line
-        const int c1 = 300000000; //speed of wave (m/s)
-        const double dx = 0.01; //displacement of x (m)
-        const double dt = dx / c1; //time displacement (s)
-        const double x0 = 1; //initial x - start of pulse (m)
-        const int k = 1000; //determines width of guassian envelope (m^-2)
-        const double r1 = c1 * dt / dx; //constant used in algorithm - unitless
+        private double[] _values = new double[255]; //values of each point on line
+        const int _c1 = 300000000; //speed of wave (m/s)
+        const double _dx = 0.01; //displacement of x (m)
+        const double _dt = _dx / _c1; //time displacement (s)
+        const double _x0 = 1; //initial x - start of pulse (m)
+        const int _widthDeterminer = 100; //determines width of guassian envelope (m^-2)
+        const double _r1 = _c1 * _dt / _dx; //constant used in algorithm - unitless
 
         /// <summary>
         /// Initializes a set of values at the time = 0
@@ -23,12 +23,12 @@ namespace EM2Project
         public YValues()
         {
             //fixed endpoints
-            values[0] = 0;
-            values[254] = 0;
+            _values[0] = 0;
+            _values[254] = 0;
 
-            for (int i = 1; i < values.Length - 1; i++)
+            for (int i = 1; i < _values.Length - 1; i++)
             {
-                values[i] = (-.666F * Math.Exp(-k * ((i * dx) - x0) * ((i * dx) - x0)));
+                _values[i] = (-.666 * Math.Exp(-_widthDeterminer * ((i * _dx) - _x0) * ((i * _dx) - _x0)));
             }
         }
 
@@ -41,19 +41,19 @@ namespace EM2Project
         /// <param name="cblue">speed through current medium</param>
         public YValues(int n, YValues past, YValues current, int cblue)
         {
-            values[0] = 0;
-            values[254] = 0;
+            _values[0] = 0;
+            _values[254] = 0;
 
-            double r2 = cblue * dt / dx;
+            double r2 = cblue * _dt / _dx;
 
-            for (int i = 1; i < values.Length / 2; i++)
+            for (int i = 1; i < _values.Length / 2; i++)
             {
-                values[i] = 2*(1 - (r1 * r1))*current.Element(i) - past.Element(i) + 
-                    r1*r1*(current.Element(i + 1) + current.Element(i-1));
+                _values[i] = 2*(1 - (_r1 * _r1))*current.Element(i) - past.Element(i) + 
+                    _r1*_r1*(current.Element(i + 1) + current.Element(i-1));
             }
-            for(int i = values.Length / 2; i < values.Length - 1; i++)
+            for(int i = _values.Length / 2; i < _values.Length - 1; i++)
             {
-                values[i] = 2 * (1 - (r2 * r2)) * current.Element(i) - past.Element(i) +
+                _values[i] = 2 * (1 - (r2 * r2)) * current.Element(i) - past.Element(i) +
                     r2 * r2 * (current.Element(i + 1) + current.Element(i - 1));
             }
         }
@@ -65,14 +65,14 @@ namespace EM2Project
         /// <returns>element</returns>
         public double Element(int i)
         {
-            return values[i];
+            return _values[i];
         }
 
         public Double this[Int32 i]
         {
             get
             {
-                return values[i];
+                return _values[i];
             }
         }
     }
