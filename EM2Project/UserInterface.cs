@@ -21,7 +21,7 @@ namespace EM2Project
 
         //speeds, in m/s
         const int _diamond = (int) (_air / 2); //speed of light in diamond
-        const int _air = 300000000; //speed of light in air
+        const int _air = 300_000_000; //speed of light in air
         const int _glass = (int) (_air / 1.5); //speed of light in glass
         const int _brett = 0; //speed of light in brett
         const int _water = (int) (_air / 1.3); //speed of light in water
