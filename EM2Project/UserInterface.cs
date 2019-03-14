@@ -16,7 +16,6 @@ namespace EM2Project
         YValues _yfuture = new YValues(); // future values - initialized at t = 0
         int _numOfSteps = 0; //number of steps - initialized at 0
         const double _dx = 0.01; //step size, in meters
-        const double _dt = _dx / _air; //time step, in seconds
         double _timeElapsed = 0; //the amount of time passed, in seconds
 
         //speeds, in m/s
@@ -25,13 +24,17 @@ namespace EM2Project
         const int _glass = (int) (_air / 1.5); //speed of light in glass
         const int _brett = 0; //speed of light in brett
         const int _water = (int) (_air / 1.3); //speed of light in water
-        const int _mystery = (int) (_air / 1.2); //speed of light in mystery item
+        const int _mystery = (int) (_air / 1.2); //speed of light in mystery item, jello
 
+        const double _dt = _dx / _air; //time step, in seconds
         int _current = _air; //current speed on right side
 
         //drawer of the lines
         private Graphics _graphics;
 
+        /// <summary>
+        /// Creates new UI instance
+        /// </summary>
         public UserInterface()
         {
             InitializeComponent();
@@ -116,7 +119,7 @@ namespace EM2Project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void timer1_Tick(object sender, EventArgs e)
+        private void _timer1_Tick(object sender, EventArgs e)
         {
             _graphics.Clear(Color.Beige);
             TimeStep();
