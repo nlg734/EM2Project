@@ -1,1 +1,5 @@
-This project attempted to simulate a transverse wave traveling from one medium to another. 
+This project simulates a transverse wave traveling from one medium to another. 
+Chapter 6, "Waves," of "Computational Physics, Second Edition" by Nicholas J. Giordano and Hisao Nakanishi was used as a reference. 
+
+This project was created as an extra credit project for the Electromagnetism 2 course at Kansas State University. 
+Natasha Graham wrote the code. Katherine Ventura and Benjamin Archibeque put forth ideas for the project as well as ideas to refine the program. 
