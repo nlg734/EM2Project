@@ -42,7 +42,7 @@
             // _timer
             // 
             this._timer.Interval = 250;
-            this._timer.Tick += new System.EventHandler(this.timer1_Tick);
+            this._timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
             // _startButton
             // 
@@ -52,7 +52,7 @@
             this._startButton.TabIndex = 1;
             this._startButton.Text = "Start";
             this._startButton.UseVisualStyleBackColor = true;
-            this._startButton.Click += new System.EventHandler(this._startButton_Click);
+            this._startButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // _pauseButton
             // 
@@ -63,7 +63,7 @@
             this._pauseButton.TabIndex = 2;
             this._pauseButton.Text = "Pause";
             this._pauseButton.UseVisualStyleBackColor = true;
-            this._pauseButton.Click += new System.EventHandler(this._pauseButton_Click);
+            this._pauseButton.Click += new System.EventHandler(this.PauseButton_Click);
             // 
             // _resumeButton
             // 
@@ -74,7 +74,7 @@
             this._resumeButton.TabIndex = 3;
             this._resumeButton.Text = "Resume";
             this._resumeButton.UseVisualStyleBackColor = true;
-            this._resumeButton.Click += new System.EventHandler(this._resumeButton_Click);
+            this._resumeButton.Click += new System.EventHandler(this.ResumeButton_Click);
             // 
             // _clearButton
             // 
@@ -85,7 +85,7 @@
             this._clearButton.TabIndex = 4;
             this._clearButton.Text = "Clear";
             this._clearButton.UseVisualStyleBackColor = true;
-            this._clearButton.Click += new System.EventHandler(this._clearButton_Click);
+            this._clearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // _materialsList
             // 
@@ -102,7 +102,7 @@
             this._materialsList.Size = new System.Drawing.Size(120, 82);
             this._materialsList.TabIndex = 5;
             this._materialsList.SelectedIndex = 3;
-            this._materialsList.SelectedIndexChanged += new System.EventHandler(this._materialsList_SelectedIndexChanged);
+            this._materialsList.SelectedIndexChanged += new System.EventHandler(this.MaterialsList_SelectedIndexChanged);
             // 
             // _timeShown
             // 

@@ -9,7 +9,7 @@ namespace EM2Project
 {
     public class YValues
     {
-        private double[] _values = new double[255]; //values of each point on line
+        private readonly double[] _values = new double[255]; //values of each point on line
         const int _c1 = 300000000; //speed of wave (m/s)
         const double _dx = 0.01; //displacement of x (m)
         const double _dt = _dx / _c1; //time displacement (s)
@@ -39,7 +39,7 @@ namespace EM2Project
         /// <param name="past">past values</param>
         /// <param name="current">current values</param>
         /// <param name="cblue">speed through current medium</param>
-        public YValues(int n, YValues past, YValues current, int cblue)
+        public YValues(YValues past, YValues current, int cblue)
         {
             _values[0] = 0;
             _values[254] = 0;

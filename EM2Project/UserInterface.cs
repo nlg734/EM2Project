@@ -6,6 +6,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using RandN;
+using RandN.Distributions;
 
 namespace EM2Project
 {
@@ -14,9 +16,10 @@ namespace EM2Project
         YValues _ycurrent = new YValues(); //current values - initialized at t = 0
         YValues _ypast = new YValues(); //past values - initiaized at t = 0
         YValues _yfuture = new YValues(); // future values - initialized at t = 0
-        int _numOfSteps = 0; //number of steps - initialized at 0
+        // int _numOfSteps = 0; //number of steps - initialized at 0
         const double _dx = 0.01; //step size, in meters
         double _timeElapsed = 0; //the amount of time passed, in seconds
+        static Uniform.Int32 _dist = Uniform.NewInclusive(0, 4); //rng distribution
 
         //speeds, in m/s
         const int _diamond = (int) (_air / 2); //speed of light in diamond
@@ -24,7 +27,7 @@ namespace EM2Project
         const int _glass = (int) (_air / 1.5); //speed of light in glass
         const int _brett = 0; //speed of light in brett
         const int _water = (int) (_air / 1.3); //speed of light in water
-        const int _mystery = (int) (_air / 1.2); //speed of light in mystery item, jello
+        // const int _mystery = (int) (_air / 1.2); //speed of light in mystery item, jello
 
         const double _dt = _dx / _air; //time step, in seconds
         int _current = _air; //current speed on right side
@@ -91,8 +94,8 @@ namespace EM2Project
             _timeElapsed += _dt;
             _ypast = _ycurrent;
             _ycurrent = _yfuture;
-            _yfuture = new YValues(_numOfSteps, _ypast, _ycurrent, _current);
-            _numOfSteps++;
+            _yfuture = new YValues(_ypast, _ycurrent, _current);
+            // _numOfSteps++;
         }
 
         /// <summary>
@@ -101,7 +104,7 @@ namespace EM2Project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _startButton_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e)
         {
             _graphics = this.CreateGraphics();
             _graphics.Clear(Color.Beige);
@@ -119,7 +122,7 @@ namespace EM2Project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _timer1_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             _graphics.Clear(Color.Beige);
             TimeStep();
@@ -131,7 +134,7 @@ namespace EM2Project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _pauseButton_Click(object sender, EventArgs e)
+        private void PauseButton_Click(object sender, EventArgs e)
         {
             _timer.Enabled = false;
             _resumeButton.Enabled = true;
@@ -143,7 +146,7 @@ namespace EM2Project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _resumeButton_Click(object sender, EventArgs e)
+        private void ResumeButton_Click(object sender, EventArgs e)
         {
             _timer.Enabled = true;
             _pauseButton.Enabled = true;
@@ -155,7 +158,7 @@ namespace EM2Project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _clearButton_Click(object sender, EventArgs e)
+        private void ClearButton_Click(object sender, EventArgs e)
         {
             _startButton.Enabled = true;
             _resumeButton.Enabled = false;
@@ -177,7 +180,7 @@ namespace EM2Project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _materialsList_SelectedIndexChanged(object sender, EventArgs e)
+        private void MaterialsList_SelectedIndexChanged(object sender, EventArgs e)
         {
             _timer.Enabled = false;
             _startButton.Enabled = true;
@@ -186,31 +189,36 @@ namespace EM2Project
             _clearButton.Enabled = false;
             _timeElapsed = 0;
             _timeShown.Text = _timeElapsed.ToString("E03");
+            
+            int selected = _materialsList.SelectedIndex;
+             
+            if (selected == 5)
+            {
+                var rng = SmallRng.Create();
+                selected = _dist.Sample(rng);
+            }
 
-            if(_materialsList.SelectedIndex == 0)
+            if (selected == 0)
             {
                 _current = _glass;
             }
-            else if(_materialsList.SelectedIndex == 1)
+            else if(selected == 1)
             {
                 _current = _diamond;
             }
-            else if(_materialsList.SelectedIndex == 2)
+            else if(selected == 2)
             {
                 _current = _water;
             }
-            else if(_materialsList.SelectedIndex == 3)
+            else if(selected == 3)
             {
                 _current = _air;
             }
-            else if(_materialsList.SelectedIndex == 4)
+            else if(selected == 4)
             {
                 _current = _brett;
             }
-            else if(_materialsList.SelectedIndex == 5)
-            {
-                _current = _mystery;
-            }
+            
 
             _ycurrent = new YValues();
             _ypast = new YValues();
